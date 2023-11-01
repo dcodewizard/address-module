@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Layout from '../components/layout/layout';
 import Input from '../components/input/input';
 import Card from '../components/card/card';
-import Button from '../components/button/button';
 import { getAddresses, searchAddresses } from '../api/addressAPI';
 
 export default function Home( {} ) {
@@ -20,7 +19,6 @@ export default function Home( {} ) {
     getAddressList();
   }, []);
 
-  // Callback to toggle the edit state for a specific address
   const toggleEditState = (index) => {
     const updatedAddresses = [...addresses];
     updatedAddresses[index].editState = !updatedAddresses[index].editState;
@@ -61,7 +59,9 @@ export default function Home( {} ) {
           <Card
             editState={address.editState}
             key={address.id}
+            address={address}
             onToggleEdit={() => toggleEditState(index)}
+            getAllAddresses={getAddressList}
           >
             <p>{address.line1} {address.line2}</p>
             <p>{address.city}, {address.state}, {address.zip}</p>

@@ -31,7 +31,7 @@ export const updateAddress = async (id, updatedData) => {
 
 export const deleteAddress = async (id) => {
   try {
-    await axios.delete(`/addresses/${id}`);
+    await axios.delete(`${baseURL}/addresses/${id}`);
   } catch (error) {
     throw error;
   }

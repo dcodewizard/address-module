@@ -1,8 +1,27 @@
 import styles from './card.module.scss'
 import Button from '../button/button'
 import Input from '../input/input'
+import { deleteAddress } from '../../api/addressAPI';
+import { toast } from 'react-toastify';
 
-export default function Card({ children, editState, addState, onToggleEdit }) {
+export default function Card({ 
+  children, 
+  editState, 
+  addState, 
+  onToggleEdit, 
+  address, 
+  getAllAddresses
+}) {
+  const handleDelete = async () => {
+    try {
+      // Call the deleteAddress function with the address ID or necessary identifier
+      await deleteAddress(address.id)
+      .then(() => getAllAddresses());
+      toast.success('Address deleted successfully');
+    } catch (error) {
+      toast.error('Error deleting Address');
+    }
+  };
   return (
     <div className={styles.card}>
       <div className={`flex flex-wrap justify-between items-center`}>
@@ -17,7 +36,7 @@ export default function Card({ children, editState, addState, onToggleEdit }) {
               <Button variant="secondary" onClick={onToggleEdit}>
                 {editState ? 'Cancel' : 'Edit'}
               </Button>
-              <Button variant="error">Delete</Button>
+              <Button variant="error" onClick={handleDelete}>Delete</Button>
             </>
           )}
         </div>
