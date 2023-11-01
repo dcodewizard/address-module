@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import styles from './card.module.scss'
 import Button from '../button/button'
 import Input from '../input/input'
 import { deleteAddress } from '../../api/addressAPI';
+import DeleteConfirmationModal from './confirmDelete';
 import { toast } from 'react-toastify';
 
 export default function Card({ 
@@ -12,6 +14,9 @@ export default function Card({
   address, 
   getAllAddresses
 }) {
+
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const handleDelete = async () => {
     try {
       // Call the deleteAddress function with the address ID or necessary identifier
@@ -22,6 +27,7 @@ export default function Card({
       toast.error('Error deleting Address');
     }
   };
+
   return (
     <div className={styles.card}>
       <div className={`flex flex-wrap justify-between items-center`}>
@@ -36,7 +42,7 @@ export default function Card({
               <Button variant="secondary" onClick={onToggleEdit}>
                 {editState ? 'Cancel' : 'Edit'}
               </Button>
-              <Button variant="error" onClick={handleDelete}>Delete</Button>
+              <Button variant="error" onClick={() => setDeleteModalOpen(true)}>Delete</Button>
             </>
           )}
         </div>
@@ -53,6 +59,14 @@ export default function Card({
         <Input label="Zip" placeholder="Enter Zip"></Input>
         {editState && <Button variant="primary">Save</Button>}
       </div>
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={() => setDeleteModalOpen(false)}
+        onConfirm={() => {
+          setDeleteModalOpen(false);
+          handleDelete(); // Call the onDelete function to perform the actual deletion
+        }}
+      />
     </div>
   );
 }
