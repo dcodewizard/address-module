@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Button from '../button/button';
+import styles from './card.module.scss'
 
 Modal.setAppElement('#__next');
 
@@ -9,12 +10,12 @@ function DeleteConfirmationModal({ isOpen, onRequestClose, onConfirm }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="modal"
+      className={styles.modal}
     >
-      <div className="content">
+      <div className={styles.content}>
         <h2>Confirm Deletion</h2>
         <p>Are you sure you want to delete this address?</p>
-        <div className="buttons">
+        <div className={styles.buttons}>
           <Button
             onClick={onConfirm}
             variant="error"
