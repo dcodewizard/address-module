@@ -49,6 +49,26 @@ module.exports = {
     return deserialize( res );
   },
 
+  async getAll() {
+    log('getting all addresses');
+
+    const addresses = await redis.HGETALL(ADDRESSES);
+  
+    if (!addresses) return [];
+  
+    const addressArray = [];
+    for (const key in addresses) {
+      if (addresses.hasOwnProperty(key)) {
+        const buffer = addresses[key];
+        const address = deserialize(buffer);
+        addressArray.push(address);
+      }
+    }
+  
+    return addressArray;
+  
+  },
+
   async search( searchString = '' ) {
     log( 'searching', searchString );
 

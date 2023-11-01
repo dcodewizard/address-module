@@ -1,9 +1,11 @@
 const express = require( 'express' );
 
-const app = express();
+const bodyParser = require('body-parser');
+const apiRoutes = require('./routes')
 
-app.get( '/', ( req, res ) => {
-  res.send({ greeting: 'Hello world!' });
-});
+const app = express();
+app.use(bodyParser.json({extendedUrl: true}))
+
+app.use('/', apiRoutes);
 
 app.listen( process.env.PORT );
