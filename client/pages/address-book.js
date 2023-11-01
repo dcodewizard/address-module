@@ -4,15 +4,20 @@ import Layout from '../components/layout/layout';
 import Input from '../components/input/input';
 import Card from '../components/card/card';
 import Button from '../components/button/button';
-import { getAddresses } from '../api/addressAPI';
+import { getAddresses, searchAddresses } from '../api/addressAPI';
 
 export default function Home( {} ) {
   const [addresses, setAddresses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
+  const getAddressList = () => {
     getAddresses()
       .then((data) => setAddresses(data))
       .catch((error) => console.error('Error fetching addresses:', error));
+  }
+
+  useEffect(() => {
+    getAddressList();
   }, []);
 
   // Callback to toggle the edit state for a specific address
@@ -22,6 +27,18 @@ export default function Home( {} ) {
     setAddresses(updatedAddresses);
   };
 
+  useEffect(async () => {
+    if (searchQuery !== "") {
+      try {
+        const results = await searchAddresses(searchQuery);
+        setAddresses(results);
+      } catch (error) {
+        console.error('Error searching addresses:', error);
+      }
+    }
+    else getAddressList();
+  },[searchQuery])
+
   return (
     <Layout home>
       <Head>
@@ -29,16 +46,18 @@ export default function Home( {} ) {
       </Head>
       <h1 className="mb-8">Address Book</h1>
       <div className="w-full md:w-1/2">
-        <Input
-          icon="icon-search.svg"
-          label="HELLO"
-        ></Input>
+      <Input
+        icon="icon-search.svg"
+        label="Search Address"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       </div>
       <div className="mt-10">
         <Card editState={false} addState={true}>
           <p className="text-lg">Add a new user's address</p>
         </Card>
-        {addresses.map((address, index) => (
+        {addresses?.map((address, index) => (
           <Card
             editState={address.editState}
             key={address.id}

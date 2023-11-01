@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3001'
 
-console.log(baseURL, "anjkbshd")
-
 export const getAddresses = async () => {
   try {
     const response = await axios.get(`${baseURL}/addresses`);
@@ -41,7 +39,7 @@ export const deleteAddress = async (id) => {
 
 export const searchAddresses = async (searchString) => {
   try {
-    const response = await axios.get(`/addresses?searchString=${searchString}`);
+    const response = await axios.get(`${baseURL}/addresses/search?searchString=${searchString}`);
     return response.data;
   } catch (error) {
     throw error;
