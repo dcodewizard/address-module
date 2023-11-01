@@ -49,6 +49,7 @@ export default function Home( {} ) {
         label="Search Address"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Enter Address to Search..."
       />
       </div>
       <div className="mt-10">

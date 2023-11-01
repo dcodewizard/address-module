@@ -22,7 +22,7 @@ export const addAddress = async (addressData) => {
 
 export const updateAddress = async (id, updatedData) => {
   try {
-    const response = await axios.put(`/addresses/${id}`, updatedData);
+    const response = await axios.put(`${baseURL}/addresses/${id}`, updatedData);
     return response.data;
   } catch (error) {
     throw error;
