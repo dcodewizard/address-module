@@ -21,11 +21,12 @@ export default function Navbar({children}) {
       <div className="flex h-screen">
         <div className={`flex-none ${styles['navbar__menu']}`}>
           <ul>
-            {links.map(({href, label, icon }) => (
+            {links.map(({href, label, icon }, index) => (
               <Navlinks
                 href={href}
                 label={label}
                 icon={icon}
+                key={index}
               />
             ))}
           </ul>
