@@ -60,7 +60,6 @@ export default function Home( {} ) {
           <div key={index}>
             <Card
               editState={address.editState}
-              key={address.id}
               address={address}
               onToggleEdit={() => toggleEditState(index)}
               getAllAddresses={getAddressList}

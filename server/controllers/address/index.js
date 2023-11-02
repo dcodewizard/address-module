@@ -11,7 +11,7 @@ const log = console.log;
 
 module.exports = {
   async add( address ) {
-    const id = 'addr_' + uuid();
+    const id = 'addr_' + uuid() + '_' + Date.now();
 
     log( 'creating', id );
 
@@ -53,20 +53,22 @@ module.exports = {
     log('getting all addresses');
 
     const addresses = await redis.HGETALL(ADDRESSES);
-  
+
     if (!addresses) return [];
-  
+
     const addressArray = [];
     for (const key in addresses) {
       if (addresses.hasOwnProperty(key)) {
         const buffer = addresses[key];
         const address = deserialize(buffer);
-        addressArray.push(address);
+        const uid = key.substring(key.lastIndexOf('_') + 1); // Extract the UID
+        addressArray.push({ uid, address });
       }
     }
-  
-    return addressArray;
-  
+    addressArray.sort((a, b) => b.uid.localeCompare(a.uid));
+    const sortedAddresses = addressArray.map(item => item.address);
+
+    return sortedAddresses;
   },
 
   async search( searchString = '' ) {
