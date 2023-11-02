@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3001'
+const baseURL = 'http://localhost:3001';
 
 export const getAddresses = async () => {
   try {
@@ -13,7 +13,7 @@ export const getAddresses = async () => {
 
 export const addAddress = async (addressData) => {
   try {
-    const response = await axios.post('/addresses', addressData);
+    const response = await axios.post(`${baseURL}/addresses`, addressData);
     return response.data;
   } catch (error) {
     throw error;

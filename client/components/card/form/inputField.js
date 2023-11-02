@@ -1,5 +1,5 @@
 import { Field, ErrorMessage } from 'formik';
-import Input from '../input/input';
+import Input from '../../input/input';
 
 export default function InputField({
   inputLabel, 

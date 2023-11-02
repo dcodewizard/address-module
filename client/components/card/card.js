@@ -3,7 +3,9 @@ import styles from './card.module.scss';
 import Button from '../button/button';
 import DeleteConfirmationModal from './confirmDelete';
 import { toast } from 'react-toastify';
-import EditForm from './editForm';
+import AddForm from './form/addForm';
+import { deleteAddress, updateAddress } from '../../api/addressAPI';
+import EditForm from './form/editForm';
 
 export default function Card({
   children,
@@ -14,6 +16,7 @@ export default function Card({
   getAllAddresses
 }) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
@@ -25,6 +28,21 @@ export default function Card({
     }
   };
 
+  const handleEditSubmit = async (values) => {
+    try {
+      const updatedValues = {
+        id: address.id, 
+        ...values,
+      };
+      await updateAddress(address?.id, updatedValues);
+      getAllAddresses();
+      toast.success('Address updated successfully');
+      onToggleEdit();
+    } catch (error) {
+      toast.error('Error updating Address');
+    }
+  };
+
   return (
     <div className={styles.card}>
       <div className={`flex flex-wrap justify-between items-center`}>
@@ -33,7 +51,7 @@ export default function Card({
         </div>
         <div>
           {addState ? (
-            <Button variant="secondary">Add Address</Button>
+            <Button variant="secondary" onClick={() => setAddModalOpen(true)}>Add Address</Button>
           ) : (
             <>
               <Button variant="secondary" onClick={onToggleEdit}>
@@ -46,13 +64,7 @@ export default function Card({
           )}
         </div>
       </div>
-      <div
-        className={`border-2 border-purple p-8 mt-8 w-full md:w-1/2 ${
-          editState ? styles['card__edit--visible'] : styles['card__edit']
-        }`}
-      >
-        <EditForm address={address} getAllAddresses={getAllAddresses} onToggleEdit={onToggleEdit} />
-      </div>
+      <EditForm address={address} handleEditSubmit={handleEditSubmit} editState={editState} />
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         onRequestClose={() => setDeleteModalOpen(false)}
@@ -60,7 +72,8 @@ export default function Card({
           setDeleteModalOpen(false);
           handleDelete();
         }}
-      />
+      />  
+      <AddForm onRequestClose={() => setAddModalOpen(false)} addModalOpen={addModalOpen} />
     </div>
   );
 }

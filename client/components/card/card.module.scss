@@ -24,6 +24,18 @@
   text-align: center;
 }
 
+.addModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 80vh;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .content {
   text-align: center;
 }
