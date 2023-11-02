@@ -28,6 +28,6 @@
       "pattern": "^\\d{5}$"
     }
   },
-  "required": ["id", "line1", "city", "state", "zip"],
+  "required": ["line1", "city", "state", "zip"],
   "additionalProperties": false
 }

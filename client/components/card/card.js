@@ -4,7 +4,7 @@ import Button from '../button/button';
 import DeleteConfirmationModal from './confirmDelete';
 import { toast } from 'react-toastify';
 import AddForm from './form/addForm';
-import { deleteAddress, updateAddress } from '../../api/addressAPI';
+import { addAddress, deleteAddress, updateAddress } from '../../api/addressAPI';
 import EditForm from './form/editForm';
 
 export default function Card({
@@ -13,7 +13,7 @@ export default function Card({
   addState,
   onToggleEdit,
   address,
-  getAllAddresses
+  getAllAddresses,
 }) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -40,6 +40,17 @@ export default function Card({
       onToggleEdit();
     } catch (error) {
       toast.error('Error updating Address');
+    }
+  };
+
+  const handleAddAddress = async (values) => {
+    try {
+      await addAddress(values);
+      getAllAddresses();
+      setAddModalOpen(false);
+      toast.success('Address Added successfully');
+    } catch (error) {
+      toast.error('Error Adding Address');
     }
   };
 
@@ -73,7 +84,11 @@ export default function Card({
           handleDelete();
         }}
       />  
-      <AddForm onRequestClose={() => setAddModalOpen(false)} addModalOpen={addModalOpen} />
+      <AddForm 
+        handleAddAddress={handleAddAddress} 
+        onRequestClose={() => setAddModalOpen(false)} 
+        addModalOpen={addModalOpen} 
+      />
     </div>
   );
 }

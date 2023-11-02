@@ -1,11 +1,15 @@
-const Ajv = require( 'ajv' );
+const Ajv = require('ajv');
+const ajv = new Ajv();
 
-module.exports = ( schema, data ) => {
-  const ajv = new Ajv();
-  const validate = ajv.compile( schema );
-  const ok = validate( data );
+module.exports = (schema) => {
+  return (req, res, next) => {
+    const validate = ajv.compile(schema);
+    const ok = validate(req.body);
 
-  if ( !ok ) {
-    throw new Error( JSON.stringify( validate.errors ) );
-  }
+    if (ok) {
+      next();
+    } else {
+      res.status(400).json({ error: validate.errors });
+    }
+  };
 };

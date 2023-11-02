@@ -53,20 +53,22 @@ export default function Home( {} ) {
       />
       </div>
       <div className="mt-10">
-        <Card editState={false} addState={true}>
+        <Card editState={false} addState={true} getAllAddresses={getAddressList}>
           <p className="text-lg">Add a new user's address</p>
         </Card>
         {addresses?.map((address, index) => (
-          <Card
-            editState={address.editState}
-            key={address.id}
-            address={address}
-            onToggleEdit={() => toggleEditState(index)}
-            getAllAddresses={getAddressList}
-          >
-            <p>{address.line1} {address.line2}</p>
-            <p>{address.city}, {address.state}, {address.zip}</p>
-          </Card>
+          <div key={index}>
+            <Card
+              editState={address.editState}
+              key={address.id}
+              address={address}
+              onToggleEdit={() => toggleEditState(index)}
+              getAllAddresses={getAddressList}
+            >
+              <p>{address.line1} {address.line2}</p>
+              <p>{address.city}, {address.state}, {address.zip}</p>
+            </Card>
+          </div>
         ))}
       </div>
     </Layout>

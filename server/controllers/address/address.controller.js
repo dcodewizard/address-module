@@ -38,7 +38,7 @@ async function getAddress(req, res) {
 async function updateAddress(req, res) {
   try {
     await addressController.update(req.params.id, req.body);
-    res.status(204).send({ message: "Successfully Updated the Address" });
+    res.send({ message: "Successfully Updated the Address" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
